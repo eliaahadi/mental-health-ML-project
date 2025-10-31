@@ -1,0 +1,78 @@
+# Byte-compiled / cache
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+venv*/
+
+# Environment / secrets
+.env
+.env.*
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Python testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data, models, artifacts (large/binary)
+data/
+datasets/
+data_raw/
+data_processed/
+models/
+checkpoints/
+saved_models/
+outputs/
+artifacts/
+weights/
+*.h5
+*.hdf5
+*.npz
+*.npy
+*.pth
+*.pt
+*.ckpt
+*.pkl
+*.joblib
+*.csv
+*.tsv
+
+# Logs
+logs/
+*.log
+
+# Databases
+*.sqlite3
+*.db
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker / Compose local overrides
+docker-compose.override.yml
+
+# Misc
+*.bak
+*.swp
