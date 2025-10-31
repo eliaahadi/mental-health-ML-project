@@ -1,0 +1,11 @@
+
+# Map your raw dataset's column names to these canonical names.
+# Leave any you don't have as blank.
+country: Country
+year: Year
+sex: Sex
+prevalence_total: Prevalence_Total
+prevalence_male: Prevalence_Male
+prevalence_female: Prevalence_Female
+prevalence_depression: Depression_Prevalence
+prevalence_anxiety: Anxiety_Prevalence

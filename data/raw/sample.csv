@@ -1,0 +1,9 @@
+Country,Year,Sex,Prevalence_Total,Prevalence_Male,Prevalence_Female,Depression_Prevalence,Anxiety_Prevalence
+United States,2016,male,18.2,16.5,NaN,7.1,9.4
+United States,2016,female,19.8,NaN,21.1,8.9,10.2
+United States,2017,male,18.7,16.9,NaN,7.4,9.6
+United States,2017,female,20.1,NaN,21.5,9.0,10.5
+Canada,2016,male,17.0,15.2,NaN,6.2,8.4
+Canada,2016,female,18.9,NaN,20.1,7.8,9.6
+Canada,2017,male,17.4,15.6,NaN,6.5,8.7
+Canada,2017,female,19.2,NaN,20.4,8.1,9.9

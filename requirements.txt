@@ -1,0 +1,10 @@
+
+pandas>=2.2
+numpy>=1.26
+plotly>=5.22
+typer>=0.12
+PyYAML>=6.0
+scikit-learn>=1.4
+statsmodels>=0.14
+country_converter>=1.2
+streamlit>=1.37

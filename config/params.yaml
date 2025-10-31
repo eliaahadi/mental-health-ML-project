@@ -1,0 +1,15 @@
+
+# Global parameters
+forecast:
+  order: [1, 1, 1]   # SARIMAX(p,d,q)
+  seasonal_order: [0, 0, 0, 0]
+cluster:
+  n_clusters: 5
+  features:
+    - prevalence_total
+    - prevalence_depression
+    - prevalence_anxiety
+    # Add DALY or suicide rate columns here after joining external data
+visualize:
+  default_indicator: prevalence_total
+  map_year: latest
