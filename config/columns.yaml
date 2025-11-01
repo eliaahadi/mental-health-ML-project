@@ -1,8 +1,15 @@
-Country: country
-Year: year
-Sex: sex
-Prevalence_Total: prevalence_total
-Prevalence_Male: prevalence_male
-Prevalence_Female: prevalence_female
-Depression_Prevalence: prevalence_depression
-Anxiety_Prevalence: prevalence_anxiety
+# Map raw dataset column names to the canonical names expected by the pipeline.
+# Multiple aliases are provided so different source files work without extra edits.
+"Entity": country
+"Country": country
+"Code": country_iso3
+"Year": year
+"Sex": sex
+"Prevalence_Total": prevalence_total
+"Prevalence_Male": prevalence_male
+"Prevalence - Depressive disorders - Sex: Male - Age: Age-standardized (Percent)": prevalence_male
+"Prevalence_Female": prevalence_female
+"Prevalence - Depressive disorders - Sex: Female - Age: Age-standardized (Percent)": prevalence_female
+"Depression_Prevalence": prevalence_depression
+"Prevalence - Depressive disorders - Sex: Both - Age: Age-standardized (Percent)": prevalence_depression
+"Anxiety_Prevalence": prevalence_anxiety

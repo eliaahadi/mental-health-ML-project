@@ -11,6 +11,9 @@ def ingest_csv(path: str, config_path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
     mapping = cfg.canonicalize(df.columns.tolist())
     df = df.rename(columns=mapping)
+    # Derive total prevalence when only sex-specific columns are present
+    if "prevalence_total" not in df.columns and {"prevalence_male", "prevalence_female"}.issubset(df.columns):
+        df["prevalence_total"] = df[["prevalence_male", "prevalence_female"]].mean(axis=1)
     # Keep only canonical columns that exist
     keep = [c for c in CANONICAL_COLUMNS if c in df.columns]
     df = df[keep].copy()
@@ -38,20 +41,46 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 def gender_gap(df: pd.DataFrame) -> pd.DataFrame:
     # Compute female - male prevalence for each indicator when both exist
     out = []
+    produced = set()
     keys = ["country","country_iso3","year"]
     indicators = ["prevalence_total","prevalence_depression","prevalence_anxiety"]
-    for name in indicators:
-        if {"sex", name}.issubset(df.columns):
-            wide = df.pivot_table(index=keys, columns="sex", values=name, aggfunc="mean")
-            if {"female","male"}.issubset(set(wide.columns.astype(str).str.lower())):
-                # normalize col names
-                cols = {c:c.lower() for c in wide.columns}
-                wide = wide.rename(columns=cols)
-                wide[name+"_gap_fm"] = wide.get("female") - wide.get("male")
-                part = wide.reset_index()[keys + [name+"_gap_fm"]]
-                out.append(part)
+    # First try the long format (sex column available)
+    if "sex" in df.columns:
+        for name in indicators:
+            if {"sex", name}.issubset(df.columns):
+                wide = df.pivot_table(index=keys, columns="sex", values=name, aggfunc="mean")
+                normalized_cols = {c: str(c).lower() for c in wide.columns}
+                wide = wide.rename(columns=normalized_cols)
+                if {"female", "male"}.issubset(wide.columns):
+                    gap_col = name + "_gap_fm"
+                    if gap_col in produced:
+                        continue
+                    wide[gap_col] = wide["female"] - wide["male"]
+                    part = wide.reset_index()[keys + [gap_col]]
+                    out.append(part)
+                    produced.add(gap_col)
+
+    # Fallback for wide datasets that already have *_male/*_female columns
+    male_cols = [c for c in df.columns if c.endswith("_male")]
+    for male_col in male_cols:
+        base = male_col[:-5]
+        female_col = f"{base}_female"
+        if female_col not in df.columns:
+            continue
+        indicator_name = base
+        if indicator_name.endswith("_"):
+            indicator_name = indicator_name.rstrip("_")
+        indicator_name = indicator_name or male_col[:-5]
+        gap_name = indicator_name + "_gap_fm"
+        if gap_name in produced:
+            continue
+        part = df[keys].copy()
+        part[gap_name] = df[female_col] - df[male_col]
+        out.append(part)
+        produced.add(gap_name)
+
     if not out:
-        raise ValueError("Sex-stratified columns not found. Provide 'sex' and male/female prevalence columns.")
+        raise ValueError("Sex-stratified columns not found. Provide 'sex' column or *_male/*_female pairs.")
     # Merge all gaps
     res = out[0]
     for part in out[1:]:

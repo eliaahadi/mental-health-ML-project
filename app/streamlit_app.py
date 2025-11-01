@@ -1,8 +1,7 @@
 
 import streamlit as st
-import pandas as pd
 from mh.plots import choropleth, country_trend
-from mh.utils import latest_year
+from mh.utils import read_parquet_safe
 
 st.set_page_config(page_title="Global Mental Health Indicators", layout="wide")
 st.title("🧠 Global Mental Health Indicators")
@@ -13,7 +12,7 @@ if not data_path:
 
 @st.cache_data
 def load_df(p):
-    return pd.read_parquet(p)
+    return read_parquet_safe(p)
 
 try:
     df = load_df(data_path)

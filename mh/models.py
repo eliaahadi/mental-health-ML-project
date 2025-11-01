@@ -8,7 +8,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 def forecast_country(df: pd.DataFrame, country_iso3: str, indicator: str, steps: int = 5, order=(1,1,1), seasonal_order=(0,0,0,0)) -> pd.DataFrame:
     d = df[(df["country_iso3"] == country_iso3) & (~df[indicator].isna())].sort_values("year")
-    if d.empty or d["year"].nunique() < 5:
+    if d.empty or d["year"].nunique() < 3:
         raise ValueError("Not enough data points to forecast. Need >=5 years of data.")
     y = d.set_index("year")[indicator].astype(float)
     model = SARIMAX(y, order=order, seasonal_order=seasonal_order, enforce_stationarity=False, enforce_invertibility=False)

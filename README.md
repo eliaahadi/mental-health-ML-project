@@ -36,12 +36,12 @@ pip install -r requirements.txt
 # 4) Place mental-health CSV(s) into data/raw/ and optional external CSV(s) into data/external/
 
 # 5) Run pipeline steps via CLI
-python -m mh.cli ingest --input data/raw/your_file.csv --output data/processed/standardized.parquet --config config/columns.yaml
-python -m mh.cli clean --input data/processed/standardized.parquet --output data/processed/clean.parquet
-python -m mh.cli gender-gap --input data/processed/clean.parquet --output reports/gender_gap.csv
-python -m mh.cli visualize --input data/processed/clean.parquet --out_html reports/overview.html
-python -m mh.cli forecast --input data/processed/clean.parquet --country "United States" --indicator prevalence_total --steps 5 --out_png reports/forecast_USA.png
-python -m mh.cli cluster --input data/processed/clean.parquet --year latest --k 5 --out_csv reports/clusters.csv
+python -m mh.cli ingest data/raw/your_file.csv data/processed/standardized.parquet --config config/columns.yaml 2>&1 | tee -a logs/run.log
+python -m mh.cli clean-data data/processed/standardized.parquet data/processed/clean.parquet 2>&1 | tee -a logs/run.log
+python -m mh.cli gender-gap data/processed/clean.parquet reports/gender_gap.csv 2>&1 | tee -a logs/run.log
+python -m mh.cli visualize data/processed/clean.parquet reports/overview.html 2>&1 | tee -a logs/run.log
+python -m mh.cli forecast data/processed/clean.parquet "United States" --indicator prevalence_total --steps 5 --out-png reports/forecast_USA.png 2>&1 | tee -a logs/run.log
+python -m mh.cli cluster data/processed/clean.parquet --year latest --k 5 --out-csv reports/clusters.csv 2>&1 | tee -a logs/run.log
 ```
 
 ## Data expectations
